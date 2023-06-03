@@ -13,18 +13,25 @@ class TaskModel {
     this._url = url;
     this._options = options;
   }
+  _isConnectedToDb = () => this._database?.connection.readyState;
 
   async connectDb() {
-    this._database = await mongoose.connect(this._url, this._options);
-    console.log(this._database);
+    console.log("Connecting");
+    try {
+      this._database = await mongoose.connect(this._url, this._options);
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   }
 
   async addTask() {
     //await mongoose.connect(URL_DB, OPTIONS);
   }
+  //return array of tasks from db
   async getTasks() {
     try {
-      await mongoose.connect(URL_DB, OPTIONS);
       const response = await tasks.find({});
       console.log(response);
       return response;
@@ -32,9 +39,9 @@ class TaskModel {
       console.error(err);
     }
   }
+  //add new task to db
   async addNewTask(task) {
     try {
-      await mongoose.connect(URL_DB, OPTIONS);
       const instance = new TaskSchema(task);
       const res = await tasks.create(instance);
       return res;
@@ -42,8 +49,21 @@ class TaskModel {
       console.error(err);
     }
   }
+  //delete task from db
   async deleteTask(id) {
     try {
+      const response = await tasks.findByIdAndDelete(id);
+      console.log("delete response", response);
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async taskCompleted(id) {
+    try {
+      const response = await tasks.findByIdAndUpdate(id, {
+        isCompleted: { status: true, timeCompleted: new Date() },
+      });
     } catch (error) {
       console.error(error);
     }

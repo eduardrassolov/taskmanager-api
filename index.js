@@ -9,8 +9,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log("Server works on port " + port);
+  await model.connectDb();
 });
 
 app.get("/api/tasks", async (req, res) => {
@@ -20,11 +21,14 @@ app.get("/api/tasks", async (req, res) => {
 
 app.post("/api/newtask", async (req, res) => {
   const response = await model.addNewTask(req.body);
-  console.log(response);
   res.send(response);
 });
 
 app.delete("/api/delete/", async (req, res) => {
-  const id = req.query.id;
-  console.log(id);
+  const response = await model.deleteTask(req.query.id);
+  res.send(response?.title);
+});
+app.put("/api/completed/", async (req, res) => {
+  const response = await model.taskCompleted(req.query.id);
+  res.send(response);
 });

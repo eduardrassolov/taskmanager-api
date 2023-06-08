@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { port } = require("./config.js");
-const { model } = require("./mongo/db_controller.js");
+const { model } = require("./taskController.js");
 
 const app = express();
 app.use(cors());

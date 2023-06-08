@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const tasks = require("../Schema/TaskSchema.js");
+const tasks = require("./Schema/taskSchema.js");
 
-const { OPTIONS, URL_DB } = require("../config.js");
-const TaskSchema = require("../Schema/TaskSchema.js");
+const { OPTIONS, URL_DB } = require("./config.js");
+const TaskSchema = require("./Schema/taskSchema.js");
 
 class TaskModel {
   _database;

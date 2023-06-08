@@ -20,6 +20,7 @@ app.get("/api/tasks", async (req, res) => {
 });
 
 app.post("/api/newtask", async (req, res) => {
+  console.log(req.body);
   const response = await model.addNewTask(req.body);
   res.send(response);
 });
@@ -28,6 +29,7 @@ app.delete("/api/delete/", async (req, res) => {
   const response = await model.deleteTask(req.query.id);
   res.send(response?.title);
 });
+
 app.put("/api/completed/", async (req, res) => {
   const response = await model.taskCompleted(req.query.id);
   res.send(response);

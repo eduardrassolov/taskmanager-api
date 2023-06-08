@@ -16,7 +16,6 @@ class TaskModel {
   _isConnectedToDb = () => this._database?.connection.readyState;
 
   async connectDb() {
-    console.log("Connecting");
     try {
       this._database = await mongoose.connect(this._url, this._options);
       return true;
@@ -26,9 +25,6 @@ class TaskModel {
     }
   }
 
-  async addTask() {
-    //await mongoose.connect(URL_DB, OPTIONS);
-  }
   //return array of tasks from db
   async getTasks() {
     try {
@@ -59,10 +55,13 @@ class TaskModel {
       console.error(error);
     }
   }
+  //update task in db which is completed or not
   async taskCompleted(id) {
     try {
+      const res = await tasks.findById(id);
+      const { isCompleted } = res;
       const response = await tasks.findByIdAndUpdate(id, {
-        isCompleted: { status: true, timeCompleted: new Date() },
+        isCompleted: { status: !isCompleted.status, timeCompleted: new Date() },
       });
     } catch (error) {
       console.error(error);

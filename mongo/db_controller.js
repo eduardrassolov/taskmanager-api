@@ -63,6 +63,7 @@ class TaskModel {
       const response = await tasks.findByIdAndUpdate(id, {
         isCompleted: { status: !isCompleted.status, timeCompleted: new Date() },
       });
+      return response;
     } catch (error) {
       console.error(error);
     }

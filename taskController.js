@@ -2,7 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const tasks = require("./Schema/taskSchema.js");
 
-const { OPTIONS, URL_DB } = require("./config.js");
+const { OPTIONS } = require("./config.js");
 const TaskSchema = require("./Schema/taskSchema.js");
 
 class TaskModel {

@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -9,8 +11,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(port, async (_, res) => {
-  console.log("Server works on port " + port);
+app.listen(process.env.PORT, async (_, res) => {
+  console.log("Server works on port " + process.env.PORT);
   try {
     await model.connectDb();
   } catch (error) {

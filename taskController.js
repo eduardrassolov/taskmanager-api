@@ -1,3 +1,4 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const tasks = require("./Schema/taskSchema.js");
 
@@ -5,23 +6,22 @@ const { OPTIONS, URL_DB } = require("./config.js");
 const TaskSchema = require("./Schema/taskSchema.js");
 
 class TaskModel {
-  _database;
-  _url;
   _options;
 
-  constructor(url, options) {
-    this._url = url;
+  constructor(options) {
     this._options = options;
   }
   _isConnectedToDb = () => this._database?.connection.readyState;
 
   async connectDb() {
     try {
-      this._database = await mongoose.connect(this._url, this._options);
+      this._database = await mongoose.connect(process.env.DATABASE_CONNECTION, {
+        ...this._options,
+        dbName: process.env.DATABASE_NAME,
+      });
       return true;
     } catch (error) {
-      console.error(error);
-      return false;
+      throw error;
     }
   }
 
@@ -29,9 +29,11 @@ class TaskModel {
   async getTasks() {
     try {
       const response = await tasks.find({});
-      console.log(response);
+      if (!response) throw new Error("no data");
       return response;
-    } catch (err) {}
+    } catch (err) {
+      throw err;
+    }
   }
   //add new task to db
   async addNewTask(task) {
@@ -68,6 +70,6 @@ class TaskModel {
   }
 }
 
-const model = new TaskModel(URL_DB, OPTIONS);
+const model = new TaskModel(OPTIONS);
 
 exports.model = model;

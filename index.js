@@ -9,17 +9,28 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(port, async () => {
+app.listen(port, async (_, res) => {
   console.log("Server works on port " + port);
-  await model.connectDb();
+  try {
+    await model.connectDb();
+  } catch (error) {
+    res.send("Auth failed");
+  }
 });
 
 app.get("/api/v1/tasks", async (req, res) => {
   try {
     const response = await model.getTasks();
     res.send(response);
-  } catch (error) {
-    throw error;
+  } catch (err) {
+    switch (err) {
+      case "no data":
+        console.log(err);
+        res.status(404).json({ error: "Data not found" });
+        break;
+      default:
+        break;
+    }
   }
 });
 

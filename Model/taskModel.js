@@ -1,30 +1,9 @@
 require("dotenv").config();
-const mongoose = require("mongoose");
-const tasks = require("./Schema/taskSchema.js");
 
-const { OPTIONS } = require("./config.js");
-const TaskSchema = require("./Schema/taskSchema.js");
+const tasks = require("../Schema/taskSchema.js");
+const TaskSchema = require("../Schema/taskSchema.js");
 
 class TaskModel {
-  _options;
-
-  constructor(options) {
-    this._options = options;
-  }
-  _isConnectedToDb = () => this._database?.connection.readyState;
-
-  async connectDb() {
-    try {
-      this._database = await mongoose.connect(process.env.DATABASE_CONNECTION, {
-        ...this._options,
-        dbName: process.env.DATABASE_NAME,
-      });
-      return true;
-    } catch (error) {
-      throw error;
-    }
-  }
-
   //return array of tasks from db
   async getTasks() {
     try {
@@ -70,6 +49,4 @@ class TaskModel {
   }
 }
 
-const model = new TaskModel(OPTIONS);
-
-exports.model = model;
+exports.taskModel = new TaskModel();

@@ -1,53 +1,37 @@
 require("dotenv").config();
+const { connect } = require("./db.js");
 
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { model } = require("./taskController.js");
+const {
+  loadData,
+  newTask,
+  completeTask,
+  deleteTask,
+} = require("./Controller/taskController.js");
+const { OPTIONS } = require("./config.js");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(process.env.PORT, async (_, res) => {
-  console.log("Server works on port " + process.env.PORT);
+const startServer = async () => {
   try {
-    await model.connectDb();
+    await connect(process.env.DATABASE_CONNECTION, OPTIONS);
+    app.listen(process.env.PORT, () => {
+      console.log("Server works on port " + process.env.PORT);
+    });
   } catch (error) {
-    res.send("Auth failed");
+    console.log(error);
   }
-});
+};
+startServer();
 
-app.get("/api/v1/tasks", async (req, res) => {
-  try {
-    const response = await model.getTasks();
-    res.send(response);
-  } catch (err) {
-    switch (err) {
-      case "no data":
-        console.log(err);
-        res.status(404).json({ error: "Data not found" });
-        break;
-      default:
-        break;
-    }
-  }
-});
+app.get("/api/v1/tasks", loadData);
 
-app.post("/api/v1/tasks", async (req, res) => {
-  const response = await model.addNewTask(req.body);
-  res.send(response);
-});
+app.post("/api/v1/tasks", newTask);
+app.post("/api/v1/tasks/:id/complete", completeTask);
 
-app.post("/api/v1/tasks/:id/complete", async (req, res) => {
-  const { id } = req.params;
-  const response = await model.taskComplete(id);
-  res.send(response);
-});
-
-app.delete("/api/v1/tasks/:id", async (req, res) => {
-  const { id } = req.params;
-  const response = await model.deleteTask(id);
-  res.send(response?.title);
-});
+app.delete("/api/v1/tasks/:id", deleteTask);

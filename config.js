@@ -2,7 +2,7 @@ const port = 3001;
 
 const URL_DB =
   "mongodb+srv://test:6YiXhAd3klJjYBtk@cluster0.1nlrtuh.mongodb.net/?retryWrites=true&w=majority";
-  
+
 const DB_NAME = "task_manager";
 
 const OPTIONS = {

@@ -31,9 +31,7 @@ class TaskModel {
       const response = await tasks.find({});
       console.log(response);
       return response;
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
   }
   //add new task to db
   async addNewTask(task) {
@@ -56,7 +54,7 @@ class TaskModel {
     }
   }
   //update task in db which is completed or not
-  async taskCompleted(id) {
+  async taskComplete(id) {
     try {
       const res = await tasks.findById(id);
       const { isCompleted } = res;

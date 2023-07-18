@@ -12,7 +12,7 @@ exports.loadData = async function (_, res) {
 exports.loadTaskById = async function (req, res) {
   try {
     const { id } = req.params;
-    const response = await taskModel.getTask(id);
+    const response = await taskModel.getTaskById(id);
     res.send(response);
   } catch (err) {
     console.log(err);

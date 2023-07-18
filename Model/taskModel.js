@@ -56,6 +56,15 @@ class TaskModel {
       console.error(error);
     }
   }
+  async updateTask(id, task) {
+    try {
+      const res = await tasks.findByIdAndUpdate(id, task);
+      console.log(res);
+      return res;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 exports.taskModel = new TaskModel();

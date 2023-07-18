@@ -40,3 +40,13 @@ exports.deleteTask = async function (req, res) {
   const response = await taskModel.deleteTask(id);
   res.send(response?.title);
 };
+
+exports.updateTask = async function (req, res) {
+  try {
+    const { id } = req.params;
+    const response = await taskModel.updateTask(id, req.body);
+    res.send(response);
+  } catch (err) {
+    console.log(err);
+  }
+};

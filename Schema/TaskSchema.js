@@ -7,12 +7,9 @@ const TaskSchema = new Schema({
     status: { type: Boolean, default: false },
     timeCompleted: { type: Date, default: null },
   },
-  reminder: {
-    isRemind: Boolean,
-    dateRemind: Date,
-  },
-
+  reminder: Date,
   notes: String,
+  priority: String,
   subTasks: [
     {
       title: String,

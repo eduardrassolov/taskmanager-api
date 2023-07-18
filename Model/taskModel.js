@@ -14,6 +14,15 @@ class TaskModel {
       throw err;
     }
   }
+  async getTaskById(id) {
+    try {
+      const response = await tasks.findById(id);
+      if (!response) throw new Error("no data");
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  }
   //add new task to db
   async addNewTask(task) {
     try {

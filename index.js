@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const {
   loadData,
+  loadTaskById,
   newTask,
   completeTask,
   deleteTask,
@@ -30,8 +31,8 @@ const startServer = async () => {
 startServer();
 
 app.get("/api/v1/tasks", loadData);
-
+app.get("/api/v1/tasks/:id", loadTaskById);
 app.post("/api/v1/tasks", newTask);
+// app.put("/api/v1/tasks/:id/update", updateTask);
 app.post("/api/v1/tasks/:id/complete", completeTask);
-
-app.delete("/api/v1/tasks/:id", deleteTask);
+app.delete("/api/v1/tasks/:id/delete", deleteTask);

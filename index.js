@@ -21,10 +21,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const startServer = async () => {
+  const port = process.env.PORT || 3000;
   try {
     await connect(process.env.DATABASE_CONNECTION, OPTIONS);
-    app.listen(process.env.PORT, () => {
-      console.log("Server works on port " + process.env.PORT);
+    app.listen(port, () => {
+      console.log("Server works on port " + port);
     });
   } catch (error) {
     console.log(error);

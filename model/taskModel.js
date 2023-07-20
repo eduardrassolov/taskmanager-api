@@ -1,7 +1,7 @@
 require("dotenv").config();
 
-const tasks = require("../schema/taskSchema.js");
-const TaskSchema = require("../schema/taskSchema.js");
+const tasks = require("../schema/TaskSchema.js");
+const TaskSchema = require("../schema/TaskSchema.js");
 
 class TaskModel {
   //return array of tasks from db

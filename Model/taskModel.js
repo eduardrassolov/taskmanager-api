@@ -1,13 +1,14 @@
 require("dotenv").config();
 
-const tasks = require("../Schema/taskSchema.js");
-const TaskSchema = require("../Schema/taskSchema.js");
+const tasks = require("../schema/taskSchema.js");
+const TaskSchema = require("../schema/taskSchema.js");
 
 class TaskModel {
   //return array of tasks from db
-  async getTasks() {
+  async getTasks(filter = {}) {
     try {
-      const response = await tasks.find({});
+      const response = await tasks.find(filter);
+      console.log(filter);
       if (!response) throw new Error("no data");
       return response;
     } catch (err) {
@@ -17,6 +18,7 @@ class TaskModel {
   async getTaskById(id) {
     try {
       const response = await tasks.findById(id);
+      console.log("response", response);
       if (!response) throw new Error("no data");
       return response;
     } catch (err) {

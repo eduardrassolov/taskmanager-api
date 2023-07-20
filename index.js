@@ -1,17 +1,18 @@
 require("dotenv").config();
 const { connect } = require("./db.js");
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const {
-  loadData,
+  // loadData,
+  loadUncompletedTasks,
+  loadCompletedTasks,
   loadTaskById,
   newTask,
   completeTask,
   deleteTask,
   updateTask,
-} = require("./Controller/taskController.js");
+} = require("./controller/taskController.js");
 const { OPTIONS } = require("./config.js");
 
 const app = express();
@@ -31,9 +32,11 @@ const startServer = async () => {
 };
 startServer();
 
-app.get("/api/v1/tasks", loadData);
+// app.get("/api/v1/tasks", loadData);
+app.get("/api/v1/tasks", loadUncompletedTasks);
+app.get("/api/v1/tasks/completed", loadCompletedTasks);
 app.get("/api/v1/tasks/:id", loadTaskById);
 app.post("/api/v1/tasks", newTask);
-app.put("/api/v1/tasks/:id/update", updateTask);
 app.post("/api/v1/tasks/:id/complete", completeTask);
+app.put("/api/v1/tasks/:id/update", updateTask);
 app.delete("/api/v1/tasks/:id/delete", deleteTask);

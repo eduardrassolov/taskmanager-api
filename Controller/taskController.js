@@ -1,8 +1,31 @@
-const { taskModel } = require("../Model/taskModel.js");
+const { taskModel } = require("../model/taskModel.js");
+
+const filters = {
+  // uncompleted: { isCompleted: { status: false, timeCompleted: null } },
+  uncompleted: { "isCompleted.status": false },
+  completed: { "isCompleted.status": true },
+};
 
 exports.loadData = async function (_, res) {
   try {
     const response = await taskModel.getTasks();
+    res.send(response);
+  } catch (err) {
+    console.log(err);
+  }
+};
+exports.loadUncompletedTasks = async function (req, res) {
+  try {
+    const response = await taskModel.getTasks(filters.uncompleted);
+    res.send(response);
+  } catch (err) {
+    console.log(err);
+  }
+};
+exports.loadCompletedTasks = async function (req, res) {
+  try {
+    const response = await taskModel.getTasks(filters.completed);
+    console.log("compl", response);
     res.send(response);
   } catch (err) {
     console.log(err);

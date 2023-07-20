@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { connect } = require("./db.js");
+const { connect } = require("./src/db.js");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -12,8 +12,8 @@ const {
   completeTask,
   deleteTask,
   updateTask,
-} = require("./controller/taskController.js");
-const { OPTIONS } = require("./config.js");
+} = require("./src/controller/taskController.js");
+const { OPTIONS } = require("./src/config.js");
 
 const app = express();
 app.use(cors());
